@@ -1,0 +1,39 @@
+#!/bin/bash
+
+usage() {
+cat << EOF
+
+Usage: test_ipv6_webserver [ options ] address
+
+options:
+  --help, -h       Show help
+EOF
+	exit ${1:-0}
+}
+
+[[ -z "$1" ]] && usage 1
+
+while [[ $# > 0 ]] ; do
+	case "$1" in
+		--help|-h)
+			usage ;;
+		-*)
+   			echo "!!! Error: Unknown option ${1}. See: test_ipv6_webserver --help"
+   			exit 1 ;;
+
+		*)
+			break ;;
+	esac
+done
+
+if [[ -z "$*" ]] ; then
+	echo "!!! Error: You must supply an address !!!"
+	exit 1
+fi
+
+webserver_addr=$1
+
+docker run -i \
+	--env TEST_ADDRESS="$1" \
+	-v ./phantomjs/www:/var/www:ro \
+	hasufell/phantomjs
