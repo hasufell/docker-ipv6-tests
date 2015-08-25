@@ -1,0 +1,9 @@
+[submodule "nginx-proxy"]
+	path = nginx-proxy
+	url = git@github.com:hasufell/nginx-proxy.git
+[submodule "phantomjs"]
+	path = phantomjs
+	url = git@github.com:hasufell/docker-phantomjs-casperjs-ipv6.git
+[submodule "dockermail"]
+	path = dockermail
+	url = git@github.com:hasufell/dockermail.git
