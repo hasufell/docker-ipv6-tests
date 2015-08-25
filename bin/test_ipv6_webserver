@@ -35,5 +35,5 @@ webserver_addr=$1
 
 docker run -i \
 	--env TEST_ADDRESS="$1" \
-	-v ./phantomjs/www:/var/www:ro \
+	-v "`pwd`"/phantomjs/www:/var/www:ro \
 	hasufell/phantomjs
