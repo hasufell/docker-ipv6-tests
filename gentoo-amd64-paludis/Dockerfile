@@ -24,6 +24,9 @@ RUN ln -s /etc/init.d/net.eth0 /run/openrc/started/net.eth0
 # By default, UTC system
 RUN echo 'UTC' > /etc/timezone
 
+# set locale
+RUN eselect locale set en_US.utf8 && env-update && source /etc/profile
+
 # get latest portage tree
 RUN emerge-webrsync
 
