@@ -7,3 +7,6 @@
 [submodule "dockermail"]
 	path = dockermail
 	url = git@github.com:hasufell/dockermail.git
+[submodule "gentoo-amd64-paludis/paludis-gentoo-git-config"]
+	path = gentoo-amd64-paludis/paludis-gentoo-git-config
+	url = git@github.com:hasufell/paludis-gentoo-git-config.git
