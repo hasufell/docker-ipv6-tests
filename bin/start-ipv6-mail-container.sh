@@ -10,8 +10,6 @@ die() {
 
 
 # start nginx mail proxy, named 'nginx-proxy'
-docker stop nginx-proxy
-docker rm nginx-proxy
 docker run --name=nginx-proxy -ti -d \
 	-p 80:80 \
 	-p 443:443 \
@@ -26,7 +24,9 @@ docker run --name=nginx-proxy -ti -d \
 	-p 465:465 \
 	-p 587:587 \
 	-v `pwd`/nginx-proxy/config/www-tmp:/var/www/tmp:ro \
-	hasufell/nginx-proxy || die "failed to start nginx mail proxy!"
+	nginx-proxy || die "failed to start nginx mail proxy!"
+
+sleep 3
 
 # get nginx-proxy ips
 nginx_ipv4_addr="$(docker inspect nginx-proxy | grep IPAddress | cut -d \" -f 4)/32"
@@ -34,17 +34,16 @@ nginx_ipv6_addr="[$(docker inspect nginx-proxy | grep GlobalIPv6Address | cut -d
 
 echo -n "127.0.0.0/8 [::1]/128 ${nginx_ipv4_addr} ${nginx_ipv6_addr}" > /var/lib/dockermail/settings/postfix-networks || die "failed to set allowed postfix networks"
 
-# start mail-container, named 'dockermail-ipv6'
-docker stop dockermail-ipv6
-docker rm dockermail-ipv6
-docker run --name=dockermail-ipv6 -t -i -d \
+# start mail-container, named 'dockermail'
+docker run --name=dockermail -t -i -d \
+	--log-driver=syslog --log-opt syslog-tag="mailer" \
 	-v /var/lib/dockermail/settings:/mail_settings \
 	-v /var/lib/dockermail/vmail/:/vmail \
-	hasufell/docker-postfix-dovecot \
+	dockermail \
 	|| die "failed to start mail-container!"
 
 # set the container address used by the nginx-proxy during runtime
-dockermail_ipv6_addr="$(docker inspect dockermail-ipv6 \
+dockermail_ipv6_addr="$(docker inspect dockermail \
 		| grep GlobalIPv6Address \
 		| cut -d \" -f 4)"
 echo -n "${dockermail_ipv6_addr}" > ./nginx-proxy/config/www-tmp/addr \

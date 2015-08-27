@@ -11,8 +11,6 @@ EOF
 	exit ${1:-0}
 }
 
-[[ -z "$1" ]] && usage 1
-
 while [[ $# > 0 ]] ; do
 	case "$1" in
 		--help|-h)
@@ -26,14 +24,15 @@ while [[ $# > 0 ]] ; do
 	esac
 done
 
-if [[ -z "$*" ]] ; then
-	echo "!!! Error: You must supply an address !!!"
-	exit 1
+if [[ -z "$1" ]] ; then
+	docker run -i \
+		-v "`pwd`"/phantomjs/www:/var/www:ro \
+		phantomjs
+else
+	webserver_addr=$1
+
+	docker run -i \
+		--env TEST_ADDRESS="$1" \
+		-v "`pwd`"/phantomjs/www:/var/www:ro \
+		phantomjs
 fi
-
-webserver_addr=$1
-
-docker run -i \
-	--env TEST_ADDRESS="$1" \
-	-v "`pwd`"/phantomjs/www:/var/www:ro \
-	hasufell/phantomjs
