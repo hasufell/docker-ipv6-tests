@@ -24,7 +24,7 @@ docker run --name=nginx-proxy -ti -d \
 	-p 465:465 \
 	-p 587:587 \
 	-v `pwd`/nginx-proxy/config/www-tmp:/var/www/tmp:ro \
-	nginx-proxy || die "failed to start nginx mail proxy!"
+	hasufell/nginx-proxy || die "failed to start nginx mail proxy!"
 
 sleep 3
 
@@ -39,7 +39,7 @@ docker run --name=dockermail -t -i -d \
 	--log-driver=syslog --log-opt syslog-tag="mailer" \
 	-v /var/lib/dockermail/settings:/mail_settings \
 	-v /var/lib/dockermail/vmail/:/vmail \
-	dockermail \
+	hasufell/docker-postfix-dovecot \
 	|| die "failed to start mail-container!"
 
 # set the container address used by the nginx-proxy during runtime

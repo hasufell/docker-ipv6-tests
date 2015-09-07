@@ -27,12 +27,12 @@ done
 if [[ -z "$1" ]] ; then
 	docker run -i \
 		-v "`pwd`"/phantomjs/www:/var/www:ro \
-		phantomjs
+		hasufell/phantomjs
 else
 	webserver_addr=$1
 
 	docker run -i \
 		--env TEST_ADDRESS="$1" \
 		-v "`pwd`"/phantomjs/www:/var/www:ro \
-		phantomjs
+		hasufell/phantomjs
 fi

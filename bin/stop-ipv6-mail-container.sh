@@ -5,9 +5,9 @@ die() {
         exit 1
 }
 
-docker stop nginx-proxy
-docker rm nginx-proxy
+docker stop hasufell/nginx-proxy
+docker rm hasufell/nginx-proxy
 
-docker stop dockermail
-docker rm dockermail
+docker stop hasufell/docker-postfix-dovecot
+docker rm hasufell/docker-postfix-dovecot
 
