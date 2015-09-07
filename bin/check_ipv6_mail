@@ -47,7 +47,7 @@ def connect_server(server, port, account, password, folder, title, tls):
         print("ERROR: Unable to open mailbox ", rv)
 
     M.logout()
-    
+
     if found == False:
         sys.exit(3)
 
@@ -99,7 +99,7 @@ options:
   --tls, -t       Whether to use tls (yes|starttls|none)
 ''')
     sys.exit(2)
-    
+
 
 def main(argv):
     server = ""
