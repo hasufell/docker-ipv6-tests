@@ -33,6 +33,7 @@ else
 
 	docker run -i \
 		--env TEST_ADDRESS="$1" \
+		--privileged=true \
 		-v "`pwd`"/phantomjs/www:/var/www:ro \
 		hasufell/phantomjs
 fi
